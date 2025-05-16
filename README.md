@@ -33,8 +33,6 @@ An eCommerce web application built with the MERN stack (MongoDB, Express, React,
 | Database   | MongoDB                     |
 | Auth       | JWT-based Authentication    |
 | Payments   | Stripe API, Razorpay API    |
-| Deployment | Vercel (Frontend), Render or Railway (Backend + DB) |
-
 ---
 
 
