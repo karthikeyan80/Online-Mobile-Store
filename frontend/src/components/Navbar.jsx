@@ -5,9 +5,10 @@ import { Link, NavLink } from "react-router-dom";
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
   return (
-    <div className="fixed left-0 w-full bg-white flex items-center justify-between px-4 font-medium">
-
-      <img src={assets.logo} className='w-30 h-15' />
+    // <div className="fixed left-0 w-full bg-white flex items-center justify-between px-4 font-medium">
+<div className="absolutetop-0 left-0 w-full bg-white font-medium">
+  <div className="flex items-center justify-between w-full max-w-[1280px] mx-auto px-4">
+      <Link to='/'><img src={assets.logo} className='w-30 h-15' /> </Link> 
 
       <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
         <NavLink to="/" className="flex flex-col items-center gap-1">
@@ -65,11 +66,11 @@ const Navbar = () => {
 
       {/* Side bar menu for small screens*/}
       <div
-        className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${
-          visible ? "w-full" : "w-0"
+        className={`absolute top-0 right-0 bottom-0 bg-white transition-all ${
+          visible ? 'w-full' : 'w-0'
         }`}
       >
-        <div className="flex flex-col text-gray-600">
+        <div className="flex flex-col z-50 bg-white text-gray-600">
           <div
             onClick={() => setVisible(false)}
             className="flex items-center gap-4 p-3 cursor-pointer"
@@ -81,7 +82,14 @@ const Navbar = () => {
             />
             <p>Back</p>
           </div>
+        
+          <NavLink onClick={()=>setVisible(false)} className='py-2 pl-6 border' to='/'>HOME</NavLink>
+          <NavLink onClick={()=>setVisible(false)} className='py-2 pl-6 border' to='/collection'>COLLECTION</NavLink>
+          <NavLink onClick={()=>setVisible(false)} className='py-2 pl-6 border' to='/about'>ABOUT</NavLink>
+          <NavLink onClick={()=>setVisible(false)} className='py-2 pl-6 border' to='/contact'>CONTACT </NavLink>
+          
         </div>
+      </div>
       </div>
     </div>
   );
