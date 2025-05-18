@@ -103,7 +103,8 @@ export const products = [
     price: 100,
     date: 1716634345448,
     bestseller: true ,
-    RAM : ["8GB", "12GB"]
+    RAM : ["8GB", "12GB"],
+    brand : "Samsung"
   },
   {
     _id: "aaaab",
@@ -112,7 +113,8 @@ export const products = [
     price: 200,
     date: 1716621345448,
     bestseller: true ,
-    RAM : ["8GB", "12GB"]
+    RAM : ["8GB", "12GB"],
+brand : "Apple"
   },
   {
     _id: "aaaac",
@@ -121,7 +123,8 @@ export const products = [
     price: 220,
     date: 1716234545448,
     bestseller: true ,
-    RAM : ["8GB", "12GB", "16GB"]
+    RAM : ["8GB", "12GB", "16GB"],
+brand : "Oneplus"
   },
   {
     _id: "aaaad",
@@ -130,7 +133,8 @@ export const products = [
     price: 110,
     date: 1716621345448,
     bestseller: true ,
-    RAM : ["8GB", "12GB"]
+    RAM : ["8GB", "12GB"],
+brand : "Realme"
   },
   {
     _id: "aaaae",
@@ -139,7 +143,8 @@ export const products = [
     price: 130,
     date: 1716622345448,
     bestseller: true ,
-    RAM : ["8GB", "12GB"]
+    RAM : ["8GB", "12GB"],
+brand : "Google"
   },
   {
     _id: "aaaaf",
@@ -148,7 +153,8 @@ export const products = [
     price: 140,
     date: 1716623423448,
     bestseller: true ,
-    RAM : ["8GB", "16GB"]
+    RAM : ["8GB", "16GB"],
+brand :  "Xiaomi"
   },
   {
     _id: "aaaag",
@@ -157,7 +163,8 @@ export const products = [
     price: 190,
     date: 1716621542448,
     bestseller: false,
-    RAM : ["8GB", "12GB"]
+    RAM : ["8GB", "12GB"], 
+brand :  "Motorola"
   },
   {
     _id: "aaaah",
@@ -167,6 +174,7 @@ export const products = [
     date: 1716622345448,
     bestseller: false,
     RAM : ["8GB", "16GB"],
+brand  : "Nothing"
   },
   {
     _id: "aaaai",
@@ -176,6 +184,7 @@ export const products = [
     date: 1716621235448,
     bestseller: false,
     RAM : ["8GB", "12GB"],
+brand : "Iqoo"
   },
   {
     _id: "aaaaj",
@@ -185,6 +194,7 @@ export const products = [
     date: 1716622235448,
     bestseller: false,
     RAM : ["8GB", "12GB"],
+brand :  "Vivo"
   },
   {
     _id: "aaaak",
@@ -194,6 +204,7 @@ export const products = [
     date: 1716623345448,
     bestseller: false,
     RAM : ["8GB", "12GB"],
+brand :  "Poco"
   },
   {
     _id: "aaaal",
@@ -203,6 +214,7 @@ export const products = [
     date: 1716624445448,
     bestseller: false,
     RAM : ["8GB", "12GB"],
+brand : "Infinix"
   },
   {
     _id: "aaaam",
@@ -212,6 +224,7 @@ export const products = [
     date: 1716625545448,
     bestseller: false,
     RAM : ["8GB", "12GB"],
+brand :  "Lava"
   },
   {
     _id: "aaaan",
@@ -221,6 +234,7 @@ export const products = [
     date: 1716626645448,
     bestseller: false,
     RAM : ["8GB", "12GB"],
+brand : "Asus"
   },
   {
     _id: "aaaao",
@@ -230,6 +244,7 @@ export const products = [
     date: 1716627745448,
     bestseller: false,
     RAM : ["8GB", "12GB"],
+brand : "Tecno"
   },
   {
     _id: "aaaap",
@@ -239,6 +254,8 @@ export const products = [
     date: 1716628845448,
     bestseller: false ,
     RAM : ["8GB", "12GB"],
+ brand : "Samsung"
+
   },
   {
     _id: "aaaaq",
@@ -247,7 +264,9 @@ export const products = [
     price: 150,
     date: 1716629945448,
     bestseller: false ,
-    RAM : ["8GB", "12GB"]
+    RAM : ["8GB", "12GB"],
+ brand : "Samsung"
+
   },
   {
     _id: "aaaar",
@@ -256,7 +275,8 @@ export const products = [
     price: 180,
     date: 1716631045448,
     bestseller: false ,
-    RAM : ["8GB", "12GB" , "16GB"]
+    RAM : ["8GB", "12GB" , "16GB"],
+brand :  "Xiaomi"
   }, ,
   {
     _id: "aaaas",
@@ -265,7 +285,8 @@ export const products = [
     price: 160,
     date: 1716632145448,
     bestseller: false,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Realme"
   },
   {
     _id: "aaaat",
@@ -274,7 +295,8 @@ export const products = [
     price: 190,
     date: 1716633245448,
     bestseller: false,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Honor"
   },
   {
     _id: "aaaau",
@@ -283,7 +305,8 @@ export const products = [
     price: 170,
     date: 1716634345448,
     bestseller: false,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Itel"
   },
   {
     _id: "aaaav",
@@ -292,7 +315,8 @@ export const products = [
     price: 200,
     date: 1716635445448,
     bestseller: false ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"] ,
+brand : "Motorola"
   },
   
   {
@@ -302,7 +326,8 @@ export const products = [
     price: 210,
     date: 1716637645448,
     bestseller: false ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Micromax"
   },
   {
     _id: "aaaay",
@@ -312,6 +337,7 @@ export const products = [
     date: 1716638745448,
     bestseller: false ,
      RAM : ["8GB", "12GB" , "16GB"],
+brand : "Realme"
   },
   {
     _id: "aaaaz",
@@ -321,6 +347,7 @@ export const products = [
     date: 1716639845448,
     bestseller: false ,
      RAM : ["8GB", "12GB" , "16GB"],
+brand : "Vivo"
   },
   {
     _id: "aaaba",
@@ -330,6 +357,7 @@ export const products = [
     date: 1716640945448,
     bestseller: false ,
      RAM : ["8GB", "12GB" , "16GB"] ,
+brand : "Lava"
   },
   {
     _id: "aaabb",
@@ -339,6 +367,7 @@ export const products = [
     date: 1716642045448,
     bestseller: false ,
      RAM : ["8GB", "12GB" , "16GB"] ,
+brand : "Infinix"
   },
   {
     _id: "aaabc",
@@ -347,7 +376,9 @@ export const products = [
     price: 210,
     date: 1716643145448,
     bestseller: false ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+ brand : "Samsung"
+
   },
   {
     _id: "aaabd",
@@ -357,6 +388,7 @@ export const products = [
     date: 1716644245448,
     bestseller: false ,
      RAM : ["8GB", "12GB" , "16GB"],
+brand : "Iqoo"
   },
   {
     _id: "aaabe",
@@ -366,6 +398,7 @@ export const products = [
     date: 1716645345448,
     bestseller: false ,
      RAM : ["8GB", "12GB" , "16GB"] ,
+brand : "Vivo"
   },
   {
     _id: "aaabf",
@@ -374,7 +407,8 @@ export const products = [
     price: 250,
     date: 1716646445448,
     bestseller: false ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Tecno"
   },
   {
     _id: "aaabg",
@@ -384,6 +418,7 @@ export const products = [
     date: 1716647545448,
     bestseller: false ,
      RAM : ["8GB", "12GB" , "16GB"] ,
+brand :  "Xiaomi"
   },
   {
     _id: "aaabh",
@@ -392,7 +427,8 @@ export const products = [
     price: 260,
     date: 1716648645448,
     bestseller: false,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Infinix"
   },
   {
     _id: "aaabi",
@@ -401,7 +437,8 @@ export const products = [
     price: 240,
     date: 1716649745448,
     bestseller: false,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Motorola"
   },
   {
     _id: "aaabj",
@@ -410,7 +447,8 @@ export const products = [
     price: 270,
     date: 1716650845448,
     bestseller: false,
-      RAM : ["8GB", "12GB" , "16GB"]
+      RAM : ["8GB", "12GB" , "16GB"],
+brand : "Poco"
   },
   {
     _id: "aaabk",
@@ -419,7 +457,8 @@ export const products = [
     price: 250,
     date: 1716651945448,
     bestseller: false ,
-      RAM : ["8GB", "12GB" , "16GB"]
+      RAM : ["8GB", "12GB" , "16GB"],
+brand : "Infinix"
   },
   {
     _id: "aaabl",
@@ -428,7 +467,9 @@ export const products = [
     price: 280,
     date: 1716653045448,
     bestseller: false ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+ brand : "Samsung"
+
   },
   {
     _id: "aaabm",
@@ -437,7 +478,8 @@ export const products = [
     price: 260,
     date: 1716654145448,
     bestseller: false ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Vivo"
   },
   {
     _id: "aaabn",
@@ -446,7 +488,8 @@ export const products = [
     price: 290,
     date: 1716655245448,
     bestseller: false ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Itel"
   },
   {
     _id: "aaabo",
@@ -455,7 +498,8 @@ export const products = [
     price: 270,
     date: 1716656345448,
     bestseller: true ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Motorola"
   },
   {
     _id: "aaabp",
@@ -464,7 +508,9 @@ export const products = [
     price: 300,
     date: 1716657445448,
     bestseller: false ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+ brand : "Samsung"
+
   },
   {
     _id: "aaabq",
@@ -473,7 +519,8 @@ export const products = [
     price: 280,
     date: 1716658545448,
     bestseller: false ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Lava"
   },
   {
     _id: "aaabr",
@@ -482,7 +529,8 @@ export const products = [
     price: 310,
     date: 1716659645448,
     bestseller: true ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Infinix"
   },
   {
     _id: "aaabs",
@@ -491,7 +539,8 @@ export const products = [
     price: 290,
     date: 1716660745448,
     bestseller: true ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Lava"
   },
   {
     _id: "aaabt",
@@ -500,7 +549,9 @@ export const products = [
     price: 320,
     date: 1716661845448,
     bestseller: false ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+ brand : "Samsung"
+
   },
   {
     _id: "aaabu",
@@ -509,7 +560,8 @@ export const products = [
     price: 300,
     date: 1716662945448,
     bestseller: false ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand :  "Xiaomi"
   },
   {
     _id: "aaabv",
@@ -518,7 +570,8 @@ export const products = [
     price: 330,
     date: 1716664045448,
     bestseller: true ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Iqoo"
   },
   {
     _id: "aaabw",
@@ -527,7 +580,8 @@ export const products = [
     price: 310,
     date: 1716665145448,
     bestseller: false ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Realme"
   },
   {
     _id: "aaabx",
@@ -536,7 +590,8 @@ export const products = [
     price: 340,
     date: 1716666245448,
     bestseller: false ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Lava",
   },
   {
     _id: "aaaby",
@@ -545,7 +600,8 @@ export const products = [
     price: 320,
     date: 1716667345448,
     bestseller: true ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Itel"
   },
   {
     _id: "aaabz",
@@ -554,7 +610,8 @@ export const products = [
     price: 350,
     date: 1716668445448,
     bestseller: true ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Infinix"
   },
 {
     _id: "aaaaw",
@@ -563,7 +620,8 @@ export const products = [
     price: 180,
     date: 1716636545448,
     bestseller: true ,
-     RAM : ["8GB", "12GB" , "16GB"]
+     RAM : ["8GB", "12GB" , "16GB"],
+brand : "Infinix"
   }
 
 ];

@@ -6,7 +6,7 @@ const Navbar = () => {
   const [visible, setVisible] = useState(false);
   return (
     // <div className="fixed left-0 w-full bg-white flex items-center justify-between px-4 font-medium">
-<div className="absolutetop-0 left-0 w-full bg-white font-medium">
+<div className="fixed top-0 left-0 w-full bg-white font-medium">
   <div className="flex items-center justify-between w-full max-w-[1280px] mx-auto px-4">
       <Link to='/'><img src={assets.logo} className='w-30 h-15' /> </Link> 
 
@@ -66,7 +66,7 @@ const Navbar = () => {
 
       {/* Side bar menu for small screens*/}
       <div
-        className={`absolute top-0 right-0 bottom-0 bg-white transition-all ${
+        className={`fixed top-0 right-0 bottom-0 bg-white transition-all ${
           visible ? 'w-full' : 'w-0'
         }`}
       >
