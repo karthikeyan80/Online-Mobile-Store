@@ -10,7 +10,7 @@ const ProductItem = ({id , image , name , price }) => {
     <Link to={`/product/${id}`} className='text-gray-700 cursor-pointer '>
        <div className="w-full h-48 flex justify-center items-center">
     <img
-      src={image}
+      src={image[0]}
       alt={name}
       className="max-h-full object-contain"
     />
