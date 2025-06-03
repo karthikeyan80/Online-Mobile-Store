@@ -59,16 +59,14 @@ const addProduct = async (req, res) => {
 // function to listt product
 const listProduct = async (req, res) => {
   try {
-    
     const products = await productModel.find({});
     res.status(200).json({
       message: "Products fetched successfully",
       success: true,
       products,
     });
-
   } catch (error) {
-     res.status(500).json({
+    res.status(500).json({
       message: error.message,
       success: false,
     });
@@ -77,43 +75,55 @@ const listProduct = async (req, res) => {
 
 // function to remove product
 const removeProduct = async (req, res) => {
-
   try {
-      await productModel.findByIdAndDelete(req.body.id);
-      res.status(200).json({
-        message: "Product removed successfully",
-        success: true,
-      });
+    console.log("Remove product request body:", req.body);
 
-} catch (error) {
+    if (!req.body.id) {
+      return res.status(400).json({
+        message: "Product ID is required",
+        success: false,
+      });
+    }
+
+    const result = await productModel.findByIdAndDelete(req.body.id);
+    console.log("Delete result:", result);
+
+    if (!result) {
+      return res.status(404).json({
+        message: "Product not found",
+        success: false,
+      });
+    }
+
+    res.status(200).json({
+      message: "Product removed successfully",
+      success: true,
+    });
+  } catch (error) {
+    console.error("Error removing product:", error);
     res.status(500).json({
       message: error.message,
       success: false,
     });
   }
-
 };
 
 // function for single product info
 const singleProduct = async (req, res) => {
-
   try {
-    const {productId} = req.body;
+    const { productId } = req.body;
     const product = await productModel.findById(productId);
     res.status(200).json({
       message: "Product fetched successfully",
       success: true,
       product,
     });
-
-
   } catch (error) {
-     res.status(500).json({
+    res.status(500).json({
       message: error.message,
       success: false,
     });
   }
-
 };
 
 export { addProduct, listProduct, removeProduct, singleProduct };
