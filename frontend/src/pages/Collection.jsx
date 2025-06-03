@@ -75,7 +75,7 @@ const Collection = () => {
   useEffect(() => { 
     applyFilter();
   }
-  , [brandFilter , priceFilter, search , showSearch]);
+  , [brandFilter , priceFilter, search , showSearch , products]);
 
   
 

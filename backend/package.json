@@ -5,7 +5,14 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "import-products": "node scripts/importProducts.js",
+    "import-products-simple": "node scripts/importProductsSimple.js",
+    "import-products-with-images": "node scripts/importProductsWithImages.js",
+    "import-assets-products": "node scripts/importAssetsProducts.js",
+    "check-products": "node scripts/checkProducts.js",
+    "add-missing-products": "node scripts/addMissingProducts.js",
+    "dev": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
