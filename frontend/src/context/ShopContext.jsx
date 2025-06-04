@@ -21,7 +21,7 @@ const ShopContextProvider = (props) => {
   );
   const navigate = useNavigate();
 
-  const addToCart = (itemId, RAM) => {
+  const addToCart = async (itemId, RAM) => {
     if (!RAM) {
       toast.error("Please select the RAM");
       return;
@@ -39,16 +39,27 @@ const ShopContextProvider = (props) => {
       cartData[itemId][RAM] = 1;
     }
     setCartItems(cartData);
+
+
+    if(token){
+      try {
+        await axios.post(`${backendUrl}/api/cart/add`, {itemId, RAM}, {
+          headers: {token}})
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed to add item to cart");
+      }
+    }
   };
 
   const getCartCount = () => {
     let totalCount = 0;
     for (const itemId in cartItems) {
-      const ramOptions = cartItems[itemId];
-      for (const ram in ramOptions) {
+      const RAMOptions = cartItems[itemId];
+      for (const RAM in RAMOptions) {
         try {
-          if (ramOptions[ram] > 0) {
-            totalCount += ramOptions[ram];
+          if (RAMOptions[RAM] > 0) {
+            totalCount += RAMOptions[RAM];
           }
         } catch (err) {
           console.log(err);

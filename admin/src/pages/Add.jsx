@@ -14,14 +14,14 @@ const Add = ({ token }) => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("50000");
   const [brand, setBrand] = useState("Vivo");
-  const [ram, setRam] = useState([]);
+  const [RAM, setRAM] = useState([]);
   const [bestseller, setBestseller] = useState(false);
 
   const handleSubmit = async (e) => {
   e.preventDefault();
 
   // Require at least one RAM type
-  if (ram.length === 0) {
+  if (RAM.length === 0) {
     alert("Please select at least one RAM option.");
     return;
   }
@@ -34,7 +34,7 @@ const Add = ({ token }) => {
     formData.append("price", price);
     formData.append("brand", brand);
     formData.append("bestseller", bestseller);
-    formData.append("RAM", JSON.stringify(ram));
+    formData.append("RAM", JSON.stringify(RAM));
 
     image1 && formData.append("image1", image1);
     image2 && formData.append("image2", image2);
@@ -231,7 +231,7 @@ const Add = ({ token }) => {
         <div className="flex gap-3">
           <div
             onClick={() =>
-              setRam((prev) =>
+              setRAM((prev) =>
                 prev.includes("8GB")
                   ? prev.filter((item) => item !== "8GB")
                   : [...prev, "8GB"]
@@ -241,7 +241,7 @@ const Add = ({ token }) => {
           >
             <p
               className={`${
-                ram.includes("8GB") ? "bg-green-700" : "bg-slate-300"
+                RAM.includes("8GB") ? "bg-green-700" : "bg-slate-300"
               } px-3 py-1 cursor-pointer`}
             >
               8GB
@@ -249,7 +249,7 @@ const Add = ({ token }) => {
           </div>
           <div
             onClick={() =>
-              setRam((prev) =>
+              setRAM((prev) =>
                 prev.includes("12GB")
                   ? prev.filter((item) => item !== "12GB")
                   : [...prev, "12GB"]
@@ -259,7 +259,7 @@ const Add = ({ token }) => {
           >
             <p
               className={`${
-                ram.includes("12GB") ? "bg-green-700" : "bg-slate-300"
+                RAM.includes("12GB") ? "bg-green-700" : "bg-slate-300"
               } px-3 py-1 cursor-pointer`}
             >
               12GB
@@ -267,7 +267,7 @@ const Add = ({ token }) => {
           </div>
           <div
             onClick={() =>
-              setRam((prev) =>
+              setRAM((prev) =>
                 prev.includes("16GB")
                   ? prev.filter((item) => item !== "16GB")
                   : [...prev, "16GB"]
@@ -277,7 +277,7 @@ const Add = ({ token }) => {
           >
             <p
               className={`${
-                ram.includes("16GB") ? "bg-green-700" : "bg-slate-300"
+                RAM.includes("16GB") ? "bg-green-700" : "bg-slate-300"
               } px-3 py-1 cursor-pointer`}
             >
               16GB
