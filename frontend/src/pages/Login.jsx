@@ -1,14 +1,82 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ShopContext } from "../context/ShopContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Login = () => {
-  const [currentState, setCurrentState] = useState("Sign up");
+  const [currentState, setCurrentState] = useState("Login");
+  const { token, setToken, navigate, backendUrl } = useContext(ShopContext);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmitHandler = (e) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
-  }
+    setIsLoading(true);
+
+    try {
+      if (currentState === "Sign up") {
+        // Validate password length
+        if (password.length < 8) {
+          toast.error("Password must be at least 8 characters long");
+          setIsLoading(false);
+          return;
+        }
+
+        const response = await axios.post(`${backendUrl}/api/user/register`, {
+          name,
+          email,
+          password,
+        });
+
+        if (response.data.success) {
+          console.log(response.data);
+          toast.success("Registration successful!");
+          setToken(response.data.token);
+          localStorage.setItem("token", response.data.token);
+        } else {
+          toast.error(response.data.message || "Registration failed");
+        }
+      } else {
+        // Login functionality
+        const response = await axios.post(`${backendUrl}/api/user/login`, {
+          email,
+          password,
+        });
+        
+
+        if (response.data.success) {
+          console.log(response.data);
+          toast.success("Login successful!");
+          setToken(response.data.token);
+          localStorage.setItem("token", response.data.token);
+        } else {
+          toast.error(response.data.message || "Login failed");
+        }
+      }
+    } catch (error) {
+      
+      const errorMessage =
+        error.response?.data?.message || "An error occurred. Please try again.";
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, [token])
 
   return (
-    <form onSubmit={onSubmitHandler} className="flex flex-col my-16 items-center w-[90%] max-w-96 m-auto gap-4 text-gray-800">
+    <form
+      onSubmit={onSubmitHandler}
+      className="flex flex-col my-16 items-center w-[90%] max-w-96 m-auto gap-4 text-gray-800"
+    >
       <div className="inline-flex items-center gap-2 mb-2 mt-10">
         <p className="prata-regular text-3xl ">{currentState}</p>
         <hr className="border-none h-[1.5px] w-8 bg-gray-800 " />
@@ -17,6 +85,8 @@ const Login = () => {
         ""
       ) : (
         <input
+          onChange={(e) => setName(e.target.value)}
+          value={name}
           type="text"
           className="w-full px-3 py-2 border border-gray-800 "
           placeholder="Name"
@@ -24,12 +94,16 @@ const Login = () => {
         />
       )}
       <input
+        onChange={(e) => setEmail(e.target.value)}
+        value={email}
         type="email"
         className="w-full px-3 py-2 border border-gray-800 "
         placeholder="Email"
         required
       />
       <input
+        onChange={(e) => setPassword(e.target.value)}
+        value={password}
         type="password"
         className="w-full px-3 py-2 border border-gray-800 "
         placeholder="password"
@@ -54,8 +128,15 @@ const Login = () => {
         )}
       </div>
 
-      <button className="bg-black text-white font-light px-8 py-2 mt-4 ">
-        {currentState === "Login" ? "Sign in" : "Sign up"}
+      <button
+        className="bg-black text-white font-light px-8 py-2 mt-4"
+        disabled={isLoading}
+      >
+        {isLoading
+          ? "Processing..."
+          : currentState === "Login"
+          ? "Sign in"
+          : "Sign up"}
       </button>
     </form>
   );
