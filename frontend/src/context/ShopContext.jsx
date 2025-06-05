@@ -16,9 +16,7 @@ const ShopContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const [products, setProducts] = useState([]);
 
-  const [token, setToken] = useState(
-    () => localStorage.getItem("token") || ""
-  );
+  const [token, setToken] = useState(() => localStorage.getItem("token") || "");
   const navigate = useNavigate();
 
   const addToCart = async (itemId, RAM) => {
@@ -40,11 +38,15 @@ const ShopContextProvider = (props) => {
     }
     setCartItems(cartData);
 
-
-    if(token){
+    if (token) {
       try {
-        await axios.post(`${backendUrl}/api/cart/add`, {itemId, RAM}, {
-          headers: {token}})
+        await axios.post(
+          `${backendUrl}/api/cart/add`,
+          { itemId, RAM },
+          {
+            headers: { token },
+          }
+        );
       } catch (error) {
         console.log(error);
         toast.error("Failed to add item to cart");
@@ -71,8 +73,40 @@ const ShopContextProvider = (props) => {
 
   const updateQuantity = async (itemId, RAM, quantity) => {
     let cartData = structuredClone(cartItems);
-    cartData[itemId][RAM] = quantity;
+
+    if (quantity === 0) {
+      // If quantity is 0, remove the item from the cart
+      if (cartData[itemId] && cartData[itemId][RAM]) {
+        delete cartData[itemId][RAM];
+
+        // If no more RAM options for this item, remove the entire item
+        if (Object.keys(cartData[itemId]).length === 0) {
+          delete cartData[itemId];
+        }
+      }
+    } else {
+      // Otherwise, update the quantity
+      cartData[itemId][RAM] = quantity;
+    }
+
     setCartItems(cartData);
+
+    if (token) {
+      try {
+        console.log("Sending update request:", { itemId, RAM, quantity });
+        const response = await axios.put(
+          `${backendUrl}/api/cart/update`,
+          { itemId, RAM, quantity },
+          {
+            headers: { token },
+          }
+        );
+        console.log("Update response:", response.data);
+      } catch (error) {
+        console.log("Error updating cart:", error);
+        toast.error("Failed to update cart");
+      }
+    }
   };
 
   const getCartAmount = () => {
@@ -104,6 +138,22 @@ const ShopContextProvider = (props) => {
     }
   };
 
+  const getUserCart = async () => {
+    if (token) {
+      try {
+        const response = await axios.get(`${backendUrl}/api/cart/get`, {
+          headers: { token },
+        });
+        if (response.data.success && response.data.cartData) {
+          setCartItems(response.data.cartData);
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed to fetch cart data");
+      }
+    }
+  };
+
   useEffect(() => {
     getProductsData();
   }, []);
@@ -111,9 +161,10 @@ const ShopContextProvider = (props) => {
   useEffect(() => {
     if (!token && localStorage.getItem("token")) {
       setToken(localStorage.getItem("token"));
+    } else if (token) {
+      getUserCart();
     }
   }, [token, navigate]);
-
 
   const value = {
     products,
@@ -133,6 +184,7 @@ const ShopContextProvider = (props) => {
     backendUrl,
     setToken,
     token,
+    getUserCart,
   };
 
   return (
