@@ -6,6 +6,8 @@ const addToCart = async (req, res) => {
   try {
     const { userId, itemId, RAM } = req.body;
 
+    console.log("Add to cart request:", { userId, itemId, RAM });
+
     if (!userId || !itemId || !RAM) {
       return res.status(400).json({
         success: false,
@@ -13,8 +15,8 @@ const addToCart = async (req, res) => {
       });
     }
 
+    // Find the user and ensure they exist
     const userData = await userModel.findById(userId);
-
     if (!userData) {
       return res.status(404).json({
         success: false,
@@ -22,33 +24,51 @@ const addToCart = async (req, res) => {
       });
     }
 
-    let cartData = userData.cartData || {}; // Initialize if undefined
+    // Initialize cartData if it doesn't exist or is not an object
+    let cartData = userData.cartData || {};
+    if (typeof cartData !== "object" || cartData === null) {
+      cartData = {};
+    }
+
+    console.log("Before update, cartData:", JSON.stringify(cartData));
 
     // Ensure RAM is properly handled as a string key
     const ramKey = String(RAM);
+    const itemIdStr = String(itemId);
 
-    if (cartData[itemId]) {
-      if (cartData[itemId][ramKey]) {
-        cartData[itemId][ramKey] += 1;
-      } else {
-        cartData[itemId][ramKey] = 1;
-      }
-    } else {
-      cartData[itemId] = {
-        [ramKey]: 1,
-      };
+    // Update the cart data
+    if (!cartData[itemIdStr]) {
+      cartData[itemIdStr] = {};
     }
 
-    // For a complete replacement of the cartData object, we'll use a different approach
-    // First, get the user document (we already have it from earlier)
-    userData.cartData = cartData;
+    if (cartData[itemIdStr][ramKey]) {
+      cartData[itemIdStr][ramKey] += 1;
+    } else {
+      cartData[itemIdStr][ramKey] = 1;
+    }
 
-    // Save the updated document
-    await userData.save();
+    console.log("After update, cartData:", JSON.stringify(cartData));
+
+    // Update the user's cart data in the database
+    const updatedUser = await userModel.findByIdAndUpdate(
+      userId,
+      { cartData: cartData },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to update cart data",
+      });
+    }
+
+    console.log("User cart updated successfully");
 
     res.status(200).json({
       success: true,
       message: "Product added to cart successfully",
+      cartData: updatedUser.cartData,
     });
   } catch (error) {
     console.log(error);
@@ -107,15 +127,19 @@ const updateCart = async (req, res) => {
 
     console.log("After update, cartData:", JSON.stringify(cartData));
 
-    // For a complete replacement of the cartData object, we'll use a different approach
-    // First, get the user document
-    const user = await userModel.findById(userId);
+    // Update the user's cart data in the database using findByIdAndUpdate
+    const updatedUser = await userModel.findByIdAndUpdate(
+      userId,
+      { cartData: cartData },
+      { new: true, runValidators: true }
+    );
 
-    // Then update the cartData property
-    user.cartData = cartData;
-
-    // Save the updated document
-    const result = await user.save();
+    if (!updatedUser) {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to update cart data",
+      });
+    }
 
     console.log("Updated user document:", result);
 
@@ -135,6 +159,8 @@ const getUserCart = async (req, res) => {
   try {
     const { userId } = req.body;
 
+    console.log("Get user cart request for userId:", userId);
+
     if (!userId) {
       return res.status(400).json({
         success: false,
@@ -142,7 +168,9 @@ const getUserCart = async (req, res) => {
       });
     }
 
+    // Find the user with the given ID
     const userData = await userModel.findById(userId);
+    console.log("Found user:", userData ? userData._id : "User not found");
 
     if (!userData) {
       return res.status(404).json({
@@ -151,9 +179,23 @@ const getUserCart = async (req, res) => {
       });
     }
 
+    // Ensure cartData is always an object, even if it's null or undefined in the database
     let cartData = userData.cartData || {};
 
-    res.status(200).json({ success: true, cartData });
+    // If cartData is not an object (e.g., it's null), initialize it as an empty object
+    if (typeof cartData !== "object" || cartData === null) {
+      cartData = {};
+    }
+
+    console.log("Retrieved cart data for user:", userId);
+    console.log("Cart data:", JSON.stringify(cartData));
+
+    // Return the cart data
+    res.status(200).json({
+      success: true,
+      cartData,
+      message: "Cart data retrieved successfully",
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal server error" });

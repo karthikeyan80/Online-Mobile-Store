@@ -24,6 +24,10 @@ const ShopContextProvider = (props) => {
       toast.error("Please select the RAM");
       return;
     }
+
+    console.log("Adding to cart:", { itemId, RAM });
+    console.log("Current cart items:", cartItems);
+
     let cartData = structuredClone(cartItems);
 
     if (cartData[itemId]) {
@@ -36,21 +40,33 @@ const ShopContextProvider = (props) => {
       cartData[itemId] = {};
       cartData[itemId][RAM] = 1;
     }
+
+    console.log("Updated cart data:", cartData);
     setCartItems(cartData);
 
     if (token) {
       try {
-        await axios.post(
+        console.log("Sending add to cart request with token:", token);
+        const response = await axios.post(
           `${backendUrl}/api/cart/add`,
           { itemId, RAM },
           {
             headers: { token },
           }
         );
+        console.log("Add to cart response:", response.data);
+
+        // Refresh cart data from server to ensure consistency
+        getUserCart();
+
+        toast.success("Item added to cart");
       } catch (error) {
-        console.log(error);
+        console.error("Error adding to cart:", error);
         toast.error("Failed to add item to cart");
       }
+    } else {
+      console.log("No token available, cart only saved locally");
+      toast.warning("Sign in to save your cart");
     }
   };
 
@@ -111,14 +127,29 @@ const ShopContextProvider = (props) => {
 
   const getCartAmount = () => {
     let totalAmount = 0;
+
+    // If products or cartItems are not loaded yet, return 0
+    if (!products.length || !Object.keys(cartItems).length) {
+      return totalAmount;
+    }
+
     for (const items in cartItems) {
       let itemInfo = products.find((product) => product._id === items);
+
+      // Skip if product not found
+      if (!itemInfo) {
+        console.log(`Product with ID ${items} not found in products list`);
+        continue;
+      }
+
       for (const item in cartItems[items]) {
         try {
           if (cartItems[items][item] > 0) {
             totalAmount += itemInfo.price * cartItems[items][item];
           }
-        } catch (error) {}
+        } catch (error) {
+          console.error(`Error calculating amount for ${items}:${item}`, error);
+        }
       }
     }
     return totalAmount;
@@ -141,30 +172,67 @@ const ShopContextProvider = (props) => {
   const getUserCart = async () => {
     if (token) {
       try {
+        console.log("Fetching cart data with token:", token);
         const response = await axios.get(`${backendUrl}/api/cart/get`, {
           headers: { token },
         });
-        if (response.data.success && response.data.cartData) {
-          setCartItems(response.data.cartData);
+        console.log("Cart API response:", response.data);
+
+        if (response.data.success) {
+          if (
+            response.data.cartData &&
+            typeof response.data.cartData === "object"
+          ) {
+            console.log("Setting cart items:", response.data.cartData);
+            setCartItems(response.data.cartData);
+          } else {
+            console.log(
+              "Cart data is not a valid object, initializing empty cart"
+            );
+            setCartItems({});
+          }
+        } else {
+          console.log("API returned success: false");
+          toast.error(response.data.message || "Failed to fetch cart data");
         }
       } catch (error) {
-        console.log(error);
-        toast.error("Failed to fetch cart data");
+        console.error("Error fetching cart data:", error);
+        // Don't show error toast on network issues to avoid annoying the user
+        if (error.response) {
+          toast.error(
+            "Failed to fetch cart data: " +
+              (error.response.data?.message || "Unknown error")
+          );
+        }
       }
+    } else {
+      console.log("No token available, skipping cart fetch");
     }
   };
 
+  // Load products first
   useEffect(() => {
     getProductsData();
   }, []);
 
+  // Handle token and cart data
   useEffect(() => {
     if (!token && localStorage.getItem("token")) {
       setToken(localStorage.getItem("token"));
     } else if (token) {
+      // Make sure products are loaded before getting cart
+      if (products.length > 0) {
+        getUserCart();
+      }
+    }
+  }, [token, products]);
+
+  // Add a separate effect to refresh cart data when navigating
+  useEffect(() => {
+    if (token && products.length > 0) {
       getUserCart();
     }
-  }, [token, navigate]);
+  }, [navigate]);
 
   const value = {
     products,

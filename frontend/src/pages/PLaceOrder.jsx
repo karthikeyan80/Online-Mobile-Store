@@ -42,38 +42,77 @@ const PLaceOrder = () => {
     event.preventDefault();
 
     try {
+      // Check if products are loaded
+      if (!products.length) {
+        console.error("Products not loaded yet");
+        toast.error("Unable to place order: Products not loaded");
+        return;
+      }
+
+      // Check if cart has items
+      if (!Object.keys(cartItems).length) {
+        console.error("Cart is empty");
+        toast.error("Your cart is empty");
+        return;
+      }
+
       const orderItems = [];
+      console.log("Cart items for order:", cartItems);
+      console.log("Available products:", products);
 
       for (const items in cartItems) {
         for (const item in cartItems[items]) {
           if (cartItems[items][item] > 0) {
-            const itemInfo = structuredClone(
-              products.find((product) => product._id === items)
-            );
-            if (itemInfo) {
-              itemInfo.RAM = item;
-              itemInfo.quantity = cartItems[items][item];
+            const product = products.find((product) => product._id === items);
+            console.log(`Found product for ${items}:`, product);
+
+            if (product) {
+              const itemInfo = {
+                _id: product._id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                RAM: item,
+                quantity: cartItems[items][item],
+              };
               orderItems.push(itemInfo);
+            } else {
+              console.log(`Product not found for ID: ${items}`);
+              toast.warning(`A product in your cart is no longer available`);
             }
           }
         }
       }
+
+      // Check if any items were added to the order
+      if (orderItems.length === 0) {
+        console.error("No valid items in cart");
+        toast.error("No valid items in your cart");
+        return;
+      }
+
+      console.log("Prepared order items:", orderItems);
+
       let orderData = {
         address: formData,
         items: orderItems,
         amount: getCartAmount() + delivery_fee,
       };
 
+      console.log("Full order data:", orderData);
+
       switch (method) {
         // api calls for cod
         case "cod":
+          console.log("Placing order with Cash on Delivery");
           const response = await axios.post(
             `${backendUrl}/api/order/place`,
             orderData,
             { headers: { token } }
           );
-           console.log(response.data);
+          console.log("Order response:", response.data);
           if (response.data.success) {
+            toast.success("Order placed successfully!");
             setCartItems({});
             navigate("/orders");
           } else {
@@ -82,6 +121,7 @@ const PLaceOrder = () => {
           break;
 
         default:
+          toast.error("Please select a valid payment method");
           break;
       }
     } catch (error) {
@@ -247,7 +287,6 @@ const PLaceOrder = () => {
           <div className="w-full text-end mt-8 ">
             <button
               type="submit"
-              onClick={() => navigate("/orders")}
               className="bg-black text-white px-16 py-3 text-sm "
             >
               PLACE ORDER
