@@ -43,7 +43,7 @@ const Orders = () => {
           orderData.map((order, index) => (
             <div
               key={index}
-              className="py-3 my-2 border-t border-b-gray-500 text-gray-600"
+              className="py-3 my-4 border-b border-gray-200 text-gray-600"
             >
               <div className="flex justify-between items-center mb-2">
                 <p className="font-medium">
@@ -57,9 +57,18 @@ const Orders = () => {
                 </p>
               </div>
 
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-2 mb-3">
                 <p className="min-w-2 h-2 rounded-full bg-green-500"></p>
                 <p className="text-sm md:text-base">{order.status}</p>
+              </div>
+
+              <div className="flex items-center gap-2 mb-3 text-sm text-gray-500">
+                <p>
+                  Payment Method:{" "}
+                  <span className="font-medium text-gray-600">
+                    {order.paymentMethod}
+                  </span>
+                </p>
               </div>
 
               {order.items.map((item, itemIndex) => {
@@ -69,14 +78,14 @@ const Orders = () => {
                 return (
                   <div
                     key={itemIndex}
-                    className="py-3 my-2 border-t border-b-gray-500 text-gray-600 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+                    className="py-3 my-2 text-gray-600 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
                   >
                     <div className="flex items-start gap-6 text-sm">
-                      {productDetails.image && (
+                      {item.image && (
                         <img
-                          src={productDetails.image[0]}
-                          alt="item_image"
-                          className="w-16 sm:w-20"
+                          src={item.image[0]}
+                          alt={item.name || "Product image"}
+                          className="w-16 sm:w-20 object-cover"
                         />
                       )}
                       <div>
@@ -102,7 +111,10 @@ const Orders = () => {
                   Total: {currency}
                   {order.amount}
                 </p>
-                <button className="border px-4 py-2 text-sm font-medium rounded-sm">
+                <button
+                  onClick={loadOrderData}
+                  className="border px-4 py-2 text-sm font-medium rounded-sm"
+                >
                   Track Order
                 </button>
               </div>
