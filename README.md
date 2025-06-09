@@ -48,6 +48,7 @@ cd frontend
 cd backend
 cd admin 
 
+
 ### 2. Install Packages  
 
 npm install 
@@ -55,12 +56,12 @@ npm install
 
 ### 3 . For executing the project
 
--frontend  - npm run dev
--admin     - npm run dev
--backend   - npm run start 
+- frontend  > npm run dev
+- admin     >npm run dev
+- backend   >npm run start 
 
 
 ### 4 . Admin Login Credentials
 
--username  : admin@mobistore.com
--password  : admin123
+- username  : admin@mobistore.com
+- password  : admin123
