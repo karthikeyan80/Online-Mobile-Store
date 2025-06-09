@@ -1,8 +1,6 @@
 import express from "express";
 import {
   placeOrder,
-  placeOrderStripe,
-  placeOrderRazorpay,
   allOrders,
   userOrders,
   updateStatus,
@@ -14,14 +12,12 @@ const orderRouter = express.Router();
 
 //Admin features
 orderRouter.post("/list", adminAuth, allOrders);
-orderRouter.post("/status", adminAuth, updateStatus);
 
 //payment features
 orderRouter.post("/place", authUser, placeOrder);
-orderRouter.post("/stripe", authUser, placeOrderStripe);
-orderRouter.post("/razorpay", authUser, placeOrderRazorpay);
 
-//User features
-orderRouter.post("/userorders", authUser, userOrders);
+//user features
+orderRouter.post("/user", authUser, userOrders);
+orderRouter.post("/status", adminAuth, updateStatus);
 
 export default orderRouter;

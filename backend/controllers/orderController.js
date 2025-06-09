@@ -49,73 +49,16 @@ const placeOrderRazorpay = async (req, res) => {};
 
 const allOrders = async (req, res) => {
   try {
-    console.log("=== All Orders Request ===");
-    console.log("Headers:", req.headers);
-    console.log("Token:", req.headers.token);
-
-    // First, get all orders without population to check if they exist
-    const orders = await orderModel.find({}).sort({ date: -1 });
-
-    console.log("Orders found:", orders.length);
-
-    if (!orders || orders.length === 0) {
-      console.log("No orders found in database");
-      return res.status(200).json({
-        success: true,
-        orders: [],
-        message: "No orders found",
-      });
-    }
-
-    // Now populate the user details
-    const populatedOrders = await orderModel
-      .find({})
-      .populate({
-        path: "userId",
-        select: "name email",
-        model: "User",
-      })
-      .sort({ date: -1 });
-
-    if (populatedOrders.length > 0) {
-      console.log("First order sample:", {
-        id: populatedOrders[0]._id,
-        userId: populatedOrders[0].userId,
-        items: populatedOrders[0].items,
-        amount: populatedOrders[0].amount,
-        status: populatedOrders[0].status,
-      });
-    }
-
-    // Transform the orders to ensure all required fields are present
-    const transformedOrders = populatedOrders.map((order) => {
-      const orderObj = order.toObject();
-      return {
-        ...orderObj,
-        items: orderObj.items.map((item) => ({
-          ...item,
-          image: item.image || [],
-          name: item.name || "Unknown Product",
-          RAM: item.RAM || "N/A",
-        })),
-      };
-    });
-
+    const orders = await orderModel.find().populate("userId");
     res.status(200).json({
       success: true,
-      orders: transformedOrders,
-      message: `Successfully fetched ${transformedOrders.length} orders`,
+      orders,
     });
   } catch (error) {
-    console.error("Error in allOrders:", error);
-    // Send more detailed error information
     res.status(500).json({
       success: false,
-      message: "Error fetching orders",
-      error: {
-        message: error.message,
-        stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
-      },
+      message: "Internal server error",
+      error: error.message,
     });
   }
 };
@@ -125,14 +68,12 @@ const allOrders = async (req, res) => {
 const userOrders = async (req, res) => {
   try {
     const { userId } = req.body;
-
     const orders = await orderModel.find({ userId });
     res.status(200).json({
       success: true,
       orders,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -145,84 +86,20 @@ const userOrders = async (req, res) => {
 
 const updateStatus = async (req, res) => {
   try {
-    console.log("=== Status Update Request ===");
-    console.log("Headers:", req.headers);
-    console.log("Body:", req.body);
-
     const { orderId, status } = req.body;
-
-    if (!orderId || !status) {
-      console.log("Missing required fields:", { orderId, status });
-      return res.status(400).json({
-        success: false,
-        message: "Order ID and status are required",
-      });
-    }
-
-    // Validate status
-    const validStatuses = [
-      "Order Placed",
-      "Processing",
-      "Shipped",
-      "Out for Delivery",
-      "Delivered",
-    ];
-
-    if (!validStatuses.includes(status)) {
-      console.log("Invalid status value:", status);
-      return res.status(400).json({
-        success: false,
-        message: "Invalid status value",
-      });
-    }
-
-    // First find the order to ensure it exists
-    const existingOrder = await orderModel.findById(orderId);
-    if (!existingOrder) {
-      console.log("Order not found:", orderId);
-      return res.status(404).json({
-        success: false,
-        message: "Order not found",
-      });
-    }
-
-    console.log("Current order status:", existingOrder.status);
-
-    // Update the order status directly
-    existingOrder.status = status;
-    await existingOrder.save();
-
-    console.log("Order status updated successfully:", {
+    const order = await orderModel.findByIdAndUpdate(
       orderId,
-      oldStatus: existingOrder.status,
-      newStatus: status,
-    });
-
-    // Verify the update
-    const verifiedOrder = await orderModel.findById(orderId);
-    console.log("Verified order status:", verifiedOrder.status);
-
-    if (verifiedOrder.status !== status) {
-      console.log("Status verification failed:", {
-        expected: status,
-        actual: verifiedOrder.status,
-      });
-      return res.status(500).json({
-        success: false,
-        message: "Status update verification failed",
-      });
-    }
-
+      { status },
+      { new: true }
+    );
     res.status(200).json({
       success: true,
-      message: "Order status updated successfully",
-      order: verifiedOrder,
+      order,
     });
   } catch (error) {
-    console.error("Error updating order status:", error);
     res.status(500).json({
       success: false,
-      message: "Error updating order status",
+      message: "Internal server error",
       error: error.message,
     });
   }
