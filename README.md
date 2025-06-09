@@ -10,8 +10,7 @@
 - User registration and login
 - Browse mobile phones with detailed specifications
 - Add to cart and manage cart
-- Online payment using **Stripe** and **Razorpay**
-- Option for **Cash on Delivery**
+- Payment with Cash On Delivery
 - Order history and order status
 - Responsive design for mobile and desktop
 
@@ -20,7 +19,7 @@
 - Add, update, and delete mobile phone products
 - View and manage customer orders
 - Dashboard analytics (optional)
-- Manage payment and delivery status
+- Manage delivery status
 
 ---
 
@@ -32,5 +31,5 @@
 | Backend    | Node.js, Express.js         |
 | Database   | MongoDB                     |
 | Auth       | JWT-based Authentication    |
-| Payments   | Stripe API, Razorpay API    |
+| Payments   | Cash On Delivery   |
 
